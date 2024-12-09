@@ -16,12 +16,14 @@ A Svelte wrapper for Editor.js with TypeScript support and enhanced configuratio
 ## Installation
 
 ```bash
+# Install the library
 npm install svelty-editor
-# or
-pnpm add svelty-editor
-# or
-yarn add svelty-editor
-```
+
+# Install required peer dependencies
+npm install @editorjs/editorjs
+
+# Install optional tools as needed
+npm install @editorjs/header @editorjs/list @editorjs/paragraph
 
 ## Basic Usage
 
