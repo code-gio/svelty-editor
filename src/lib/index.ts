@@ -1,0 +1,1 @@
+export { default as SveleEditorJs } from './editor.svelte';
