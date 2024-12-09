@@ -1,58 +1,170 @@
-# create-svelte
+# Svelty Editor
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A Svelte wrapper for Editor.js with TypeScript support and enhanced configuration options.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+## Features
 
-## Creating a project
+- 🎯 Full TypeScript support
+- ⚡ Dynamic tool registration
+- 🌍 Internationalization (i18n) support
+- 📝 Read-only mode
+- 🛠 Customizable inline toolbar
+- 🎨 Block tunes support
+- 📊 Custom event handling
+- 📝 Advanced configuration options
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Installation
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npm install svelty-editor
+# or
+pnpm add svelty-editor
+# or
+yarn add svelty-editor
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+## Basic Usage
 
-## Building
+```svelte
+<script lang="ts">
+  import { Editor } from 'svelty-editor';
+  import type { OutputData } from '@editorjs/editorjs';
 
-To build your library:
+  const handleChange = (data: OutputData) => {
+    console.log('Content changed:', data);
+  };
+</script>
 
-```bash
-npm run package
+<Editor
+  onChange={handleChange}
+  placeholder="Start writing..."
+  autofocus={true}
+/>
 ```
 
-To create a production version of your showcase app:
+## Advanced Configuration
 
-```bash
-npm run build
+```svelte
+<script lang="ts">
+  import { Editor } from 'svelty-editor';
+  import type { OutputData } from '@editorjs/editorjs';
+  
+  let editor: any;
+
+  const editorConfig = {
+    defaultBlock: 'paragraph',
+    autofocus: true,
+    placeholder: 'Start writing an awesome story!',
+    logLevel: 'ERROR',
+    inlineToolbar: ['link', 'marker', 'bold', 'italic'],
+    tools: {
+      header: {
+        inlineToolbar: true,
+        config: {
+          placeholder: 'Enter a header',
+          levels: [1, 2, 3],
+          defaultLevel: 1
+        }
+      },
+      list: {
+        inlineToolbar: true
+      }
+    },
+    i18n: {
+      messages: {
+        ui: {
+          'blockTunes.deleteTune.delete': 'Delete',
+          'blockTunes.deleteTune.confirm': 'Confirm'
+        },
+        toolNames: {
+          'header': 'Heading',
+          'list': 'List'
+        }
+      }
+    },
+    onChange: (api, event) => {
+      console.log('Content changed:', event);
+    },
+    onReady: () => {
+      console.log('Editor is ready!');
+    }
+  };
+</script>
+
+<Editor
+  bind:this={editor}
+  {...editorConfig}
+/>
 ```
 
-You can preview the production build with `npm run preview`.
+## Adding Custom Tools
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
+```typescript
+// Registering a custom tool
+await editor.registerTool(
+  'customTool', 
+  () => import('./CustomTool'),
+  {
+    inlineToolbar: true,
+    config: {
+      // custom tool configuration
+    }
+  }
+);
 ```
+
+## Available Methods
+
+```typescript
+// Save editor content
+const data = await editor.save();
+
+// Toggle read-only mode
+editor.setReadOnly(true);
+
+// Register a new tool
+await editor.registerTool(name, toolLoader, config);
+
+// Get editor manager instance for advanced usage
+const manager = editor.getManager();
+```
+
+## Configuration Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `data` | `OutputData` | Initial editor content |
+| `onChange` | `(data: OutputData) => void` | Callback when content changes |
+| `placeholder` | `string` | Editor placeholder text |
+| `autofocus` | `boolean` | Auto focus editor on load |
+| `readOnly` | `boolean` | Enable read-only mode |
+| `defaultBlock` | `string` | Default block type |
+| `logLevel` | `'VERBOSE' \| 'INFO' \| 'WARN' \| 'ERROR'` | Logging level |
+| `inlineToolbar` | `boolean \| string[]` | Configure inline toolbar |
+| `tools` | `Record<string, EditorTool>` | Configure editor tools |
+| `i18n` | `I18nConfig` | Internationalization config |
+| `tunes` | `string[]` | Block tunes configuration |
+
+## TypeScript Support
+
+The library includes comprehensive TypeScript definitions. You can import types like this:
+
+```typescript
+import type { 
+  EditorOptions,
+  EditorTool,
+  EditorChangeEvent 
+} from 'svelty-editor';
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT
+
+## Credits
+
+This library is powered by [Editor.js](https://editorjs.io/).
