@@ -24,6 +24,7 @@ npm install @editorjs/editorjs
 
 # Install optional tools as needed
 npm install @editorjs/header @editorjs/list @editorjs/paragraph
+```
 
 ## Basic Usage
 
