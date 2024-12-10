@@ -30,7 +30,7 @@ npm install @editorjs/header @editorjs/list @editorjs/paragraph
 
 ```svelte
 <script lang="ts">
-  import { Editor } from 'svelty-editor';
+  import { SveltyEditor } from 'svelty-editor';
   import type { OutputData } from '@editorjs/editorjs';
 
   const handleChange = (data: OutputData) => {
@@ -38,7 +38,7 @@ npm install @editorjs/header @editorjs/list @editorjs/paragraph
   };
 </script>
 
-<Editor
+<SveltyEditor
   onChange={handleChange}
   placeholder="Start writing..."
   autofocus={true}
@@ -49,7 +49,7 @@ npm install @editorjs/header @editorjs/list @editorjs/paragraph
 
 ```svelte
 <script lang="ts">
-  import { Editor } from 'svelty-editor';
+  import { SveltyEditor } from 'svelty-editor';
   import type { OutputData } from '@editorjs/editorjs';
   
   let editor: any;
@@ -94,7 +94,7 @@ npm install @editorjs/header @editorjs/list @editorjs/paragraph
   };
 </script>
 
-<Editor
+<SveltyEditor
   bind:this={editor}
   {...editorConfig}
 />

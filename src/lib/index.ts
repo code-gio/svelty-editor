@@ -1,1 +1,1 @@
-export { default as SveleEditorJs } from './editor.svelte';
+export { default as SveltyEditor } from './editor.svelte';
